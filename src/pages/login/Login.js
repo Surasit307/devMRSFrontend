@@ -1,8 +1,15 @@
-import logo from './logo.svg';
-import './Login.css';
+import { useNavigate, useLocation } from "react-router-dom";
 import { Button, TextField } from '@mui/material';
 
-function Login() {
+const Login = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const handleSingin = () => {
+        // alert('>>>');
+        navigate('/home');
+      };
+    
     return (
         <div className="App">
             <br /><br />
@@ -11,7 +18,7 @@ function Login() {
                     // required
                     id="outlined-required"
                     label="Username"
-                    // defaultValue="Hello World"
+                // defaultValue="Hello World"
                 />
             </div>
             <br />
@@ -25,7 +32,7 @@ function Login() {
             </div>
             <br />
             <div>
-                <Button variant="contained">Signin</Button>
+                <Button variant="contained" onClick={handleSingin}>Signin</Button>
             </div>
         </div>
     );
