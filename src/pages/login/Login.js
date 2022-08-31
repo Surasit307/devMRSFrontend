@@ -19,9 +19,11 @@ const Login = () => {
             })
              .then(res => { console.log(res)
               alert("Success")
+              localStorage.setItem("username", values.username);    
               navigate('/logout');
+                     
              })
-            .catch(err => {  
+            .catch(err => {     
                 if(err.response.status == 404){
                 alert("Your password is invalid")
                 console.error(err)
@@ -33,7 +35,6 @@ const Login = () => {
                 
       };
       
-
       const [values , setValues] = useState({
         username : "",
         password : "",
@@ -49,7 +50,6 @@ const Login = () => {
         
     };
 
- 
     return (
         
         <div className="App">

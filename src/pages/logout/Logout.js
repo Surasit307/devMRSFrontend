@@ -9,14 +9,10 @@ const Home = () => {
     const location = useLocation();
 
 const handleLogout = (e) => {
-        // alert('>>>');
-        //navigate('/home');
-
         e.preventDefault();
         axios
             .post("http://localhost:8083/api/v1/logout",{
-                // username : values.username,
-                username : values.response.data.username,
+            username : values.username,
             })
              .then(res => { console.log(res)
               navigate('/home');
@@ -26,15 +22,12 @@ const handleLogout = (e) => {
             });
                 
       };
-      
+      const userName = localStorage.getItem('username');
       const [values , setValues] = useState({
-        username : ''
+        username : userName,
       });
-
     console.log(values);
     
-
-
     return (
     <div> 
     <center> 
