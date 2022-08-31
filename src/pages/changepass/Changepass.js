@@ -1,27 +1,67 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button, TextField } from '@mui/material';
+import React, { useState } from 'react';
+import axios from 'axios';
 
 const Changepass = () => {
     const navigate = useNavigate();
-    const location = useLocation();
+   // const location = useLocation();
 
-    const handleChange = () => {
-        // alert('>>>');
-        navigate('/login');
+    const handleChange = (e) => {
+        e.preventDefault();
+        axios
+            .post("http://localhost:8083/api/v1/newpassword",{
+                username : values.username,
+                password : values.password,
+                newpassword : values.newpassword,
+            
+            })
+             .then(res => { console.log(res)
+              alert("Success")
+              navigate('/login');
+             })
+            .catch(err => {  
+                alert("Failed")
+                console.error(err)
+
+            });
+                
       };
-    
+      
+
+      const [values , setValues] = useState({
+        username : "",
+        password : "",
+        newpasswod : "",
+        showPass : false,
+        showNewPass : false,
+
+      });
+    console.log(values);
+
+    const handlePassVisibility = () => {
+        setValues ({
+            ...values,
+            showPass: !values.showPass,
+            showNewPass: !values.showNewPass,
+        });
+
+    };
+
+
     return (
         
         <div className="App">
             <center> 
-            <br /><br />
-                <h1> Change Password </h1>
+            <h1> Change Password </h1>
+            <br />
             <div>
                 <TextField
                     // required
                     id="outlined-required"
                     label="Username"
-                // defaultValue="Hello World"
+                    type = "username"
+                    onChange={(e) => setValues({...values,username:e.target.value})}
                 />
             </div>
             <br />
@@ -29,18 +69,20 @@ const Changepass = () => {
                 <TextField
                     id="outlined-password-input"
                     label="Password"
-                    type="password"
+                    type={values.showNewPass ? "text" :  "password"}
                     autoComplete="current-password"
+                    onChange={(e) => setValues({...values,password:e.target.value})}
                 />
             </div>
-            <br />
 
+            <br />
             <div>
                 <TextField
                     id="outlined-newpassword-input"
-                    label="New Password"
-                    type="newpassword"
+                    label="NewPassword"
+                    type={values.showNewPass ? "text" :  "password"}
                     autoComplete="current-newpassword"
+                    onChange={(e) => setValues({...values,newpassword:e.target.value})}
                 />
             </div>
             <br />

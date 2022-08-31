@@ -4,23 +4,33 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 
+
 const Login = () => {
     const navigate = useNavigate();
     //const location = useLocation();
-
     const handleSignin = (e) => {
-        // alert('>>>');
-       // navigate('/home');
+
         e.preventDefault();
         axios
             .post("http://localhost:8083/api/v1/login",{
                 username : values.username,
-                password : values.password
-            })
-             .then(res => console.log(res))
-           // .then((values) => localStorage.setItem("token", res.data.token))
-            .catch(err => console.error(err));
+                password : values.password,
             
+            })
+             .then(res => { console.log(res)
+              alert("Success")
+              navigate('/logout');
+             })
+            .catch(err => {  
+                if(err.response.status == 404){
+                alert("Your password is invalid")
+                console.error(err)
+            }else if(err.response.status == 500){
+                alert("Your username is invalid ")
+                console.error(err)
+            }
+            });
+                
       };
       
 
@@ -58,8 +68,7 @@ const Login = () => {
 
             <br />
             <div>
-                <TextField
-                    required
+                <TextField required
                     id="outlined-password-input"
                     label="Password"
                     type={values.showPass ? "text" :  "password"}

@@ -6,12 +6,12 @@ const Home = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-const handleSingin = () => {
+const handleSignin = () => {
         // alert('>>>');
         navigate('/login');
     };
 
-    const handleSingup = () => {
+    const handleSignup = () => {
         // alert('>>>');
         navigate('/signup');
     };
@@ -22,12 +22,12 @@ const handleSingin = () => {
 
      <div>
         <br></br>
-        <Button variant="contained" onClick={handleSingin}>Sign in</Button>
+        <Button variant="contained" onClick={handleSignin}>Sign in</Button>
     </div>
 
     <div>
         <br></br>
-        <Button variant="contained" onClick={handleSingup}>Sign up</Button>
+        <Button variant="contained" onClick={handleSignup}>Sign up</Button>
     </div>
 
      </center>
