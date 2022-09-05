@@ -4,6 +4,8 @@ import Home from './pages/home/Home';
 import Signup from './pages/signup/Signup';
 import Changepass from './pages/changepass/Changepass';
 import Logout from './pages/logout/Logout';
+import DataTable from './pages/datatable/DataTable';
+import DataTable2 from './pages/datatable/DataTable2';
 
 const App = () => {
 
@@ -18,11 +20,15 @@ const App = () => {
           <Route path="/changepass" element={<Changepass/>} />
           <Route path="/home" element={<Home/>} />
           <Route path="/logout" element={<Logout/>} />
+          //<Route path="/datatable" element={<DataTable/>} />
+          <Route path="/datatable2" element={<DataTable2/>} />
           {/* <Route path="*" element={<NoPage />} /> */}
         </Routes>
 
+
       </div>
     </BrowserRouter >
+
 
   );
   

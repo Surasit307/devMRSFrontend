@@ -5,6 +5,7 @@ import App from './App';
 import Login from './pages/login/Login';
 import Signup from './pages/signup/Signup';
 import reportWebVitals from './reportWebVitals';
+// import "antd/dist/antd.css";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

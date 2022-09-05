@@ -15,6 +15,11 @@ const handleSignin = () => {
         // alert('>>>');
         navigate('/signup');
     };
+
+    const handleDataTable = () => {
+        // alert('>>>');
+        navigate('/datatable2');
+    };
     return  (
 
     <div> 
@@ -30,6 +35,10 @@ const handleSignin = () => {
         <Button variant="contained" onClick={handleSignup}>Sign up</Button>
     </div>
 
+    <div>
+        <br></br>
+        <Button variant="contained" onClick={handleDataTable}>Data Table</Button>
+    </div>
      </center>
      </div> 
 
