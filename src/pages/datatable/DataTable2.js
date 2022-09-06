@@ -6,6 +6,7 @@ import { SearchOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 // import "antd/dist/antd.css";
 import 'antd/dist/antd.min.css';
+
 const DataTable = () => {
   const [gridData, setGridData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -42,37 +43,48 @@ const DataTable = () => {
     // setLoading(false);
   };
 
-  // const save = async (value) => {
+  // const save = async (e) => {
+  //   //console.log("values" ,values)
   //   const response = await axios.put(
   //     `http://localhost:8083/api/v1/updateaccount`, {
-  //       accountId: value.accountId,
-  //       username : value.username,
-  //       password : value.password,
-  //       firstname : value.firstname,
-  //       lastname : value.lastname,
-  //       gender : value.gender,
-  //       email : value.email,
-  //       address : value.address,
+  //       accountId : values.accountId,
+  //       username : values.username,
+  //       password : values.password,
+  //       firstname : values.firstname,
+  //       lastname : values.lastname,
+  //       gender : values.gender,
+  //       email : values.email,
+  //       address : values.address,
   //     });
-      // try {
-      //   const row = await form.validateFields();
-      //   const newData = [...modifiedData];
-      //   const index = newData.findIndex((item) => value === item.value);
+  //     //console.log(values)
+  //     //console.log(response)
+  //     try {
+  //       const row = await form.validateFields();
+  //       const newData = [...modifiedData];
+  //       const index = newData.findIndex((item) => values === item.values);
           
-      //   if (index > -1) {
-      //     const item = newData[index];
-      //     newData.splice(index, 1, { ...item, ...row });
-      //     setGridData(newData);
-      //     setEditingKey("");
-      //   }
-      // } catch (error) {
-      //   console.log("Error", error);
-      // }
-  
-      
-      // console.log(value)
-  //     console.log(response)
+  //       if (index > -1) {
+  //         const item = newData[index];
+  //         newData.splice(index, 1, { ...item, ...row });
+  //         setGridData(newData);
+  //         setEditingKey("");
+  //       }
+  //     } catch (error) {
+  //       console.log("Error", error);
+  //     }
+
   // };
+
+  const [values , setValues] = useState({
+    accountId : "",
+    username: "",
+    password: "",
+    firstname: "",
+    lastname: "",
+    gender: "",
+    email: "",
+    address: "",
+  });
 
   const modifiedData = gridData.map(({ body, ...item }) => ({
     ...item,
@@ -162,19 +174,19 @@ const DataTable = () => {
 
   const edit = (record) => {
     form.setFieldsValue({
-      username: "",
-      password: "",
-      firstname: "",
-      lastname: "",
-      gender: "",
-      email: "",
-      address: "",
+      accountId: "",
+      username : "",
+      password : "",
+      firstname : "",
+      lastname : "",
+      gender : "",
+      email : "",
+      address : "",
       ...record,
     });
     setEditingKey(record.key);
-    //setEditingKey(record);
-    
   };
+ 
   const cancel = () => {
     setEditingKey("");
   };
@@ -187,22 +199,27 @@ const DataTable = () => {
     setSortedInfo({ columnKey: field, order });
   };
 
-
-
   console.log("filteredInfo", filteredInfo);
-  const save = async (key) => {
-    // const response = await axios.put("http://localhost:8083/api/v1/updateaccount" , {
-    //     accountId: key.accountId,
-    //     username : key.username,
-    //     password : key.password,
-    //     firstname : key.firstname,
-    //     lastname : key.lastname,
-    //     gender : key.gender,
-    //     email : key.email,
-    //     address : key.address,
-    //   },
-      // console.log("key :", key)
-      //   );
+
+  const save = async (value,key) => {
+   
+    const response = await axios.put("http://localhost:8083/api/v1/updateaccount" , {
+        //accountId: value.accountId,
+        accountId : value.accountId,
+        username : values.username,
+        password : values.password,
+        firstname : values.firstname,
+        lastname : values.lastname,
+        gender : values.gender,
+        email : values.email,
+        address : values.address,
+      },
+      //console.log("values :", values)
+        ).then(res => { console.log(res)
+        })
+       .catch(err => {  
+           console.error(err)
+       });;
 
     try {
       const row = await form.validateFields();
@@ -218,10 +235,7 @@ const DataTable = () => {
     } catch (error) {
       console.log("Error", error);
     }
-    console.log("data : " ,(key.username))
   };
-
-
 
   const EditableCell = ({
     editing,
@@ -230,13 +244,16 @@ const DataTable = () => {
     record,
     children,
     ...restProps
+    
   }) => {
-    const input = <Input />;
+    const input = <Input />
     return (
       <td {...restProps}>
+        
         {editing ? (
-          <Form.Item
+          <Form.Item  
            name={dataIndex} //edit show text
+           onChange={(e) => setValues({...values,[dataIndex]:e.target.value})}
             style={{
               margin: 0,
             }}
@@ -244,24 +261,33 @@ const DataTable = () => {
               {
                 required: true,
                 message: `Please input ${title}`,
+
               },
             ]}
+            
           >
+          
             {input}
           </Form.Item>
         ) : (
           children
+          
+          
         )}
       </td>
+      
     );
-  };
-
+    
+  };  
   const columns = [
     {
+      key : "1",
       title: "ID",
       dataIndex: "accountId",
+      
     },
     {
+      key : "2",
       title: "Username",
       dataIndex: "username",
       align: "center",
@@ -271,6 +297,7 @@ const DataTable = () => {
       ...getColumnSearchProps("username"),
     },
     {
+      key : "3",
       title: "Password",
       dataIndex: "password",
       align: "center",
@@ -278,6 +305,7 @@ const DataTable = () => {
       sorter: (a, b) => a.password.length - b.password.length,
       sortOrder: sortedInfo.columnKey === "password" && sortedInfo.order,
       ...getColumnSearchProps("password"),
+      
     },
     {
       title: "Firstname",
@@ -345,10 +373,12 @@ const DataTable = () => {
               <span>
                 <Space size="middle">
                   <Button
-                    onClick={(e) => save(record.key)}
+                    onClick={() => save(record,record.key)}
+                    
                     //onClick={(e) => save(record)}
                     type="primary"
                     style={{ marginRight: 8 }}
+                  
                   >
                     Save
                   </Button>
@@ -367,7 +397,6 @@ const DataTable = () => {
       },
     },
   ];
-
   const isEditing = (record) => {
    return record.key === editingKey
    //return record.key === editingKey
