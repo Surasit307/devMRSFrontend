@@ -7,6 +7,7 @@ import Highlighter from "react-highlight-words";
 // import "antd/dist/antd.css";
 import 'antd/dist/antd.min.css';
 
+
 const DataTable = () => {
   const [gridData, setGridData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -27,10 +28,12 @@ const DataTable = () => {
     setLoading(true);
     const response = await axios.get(
       "http://localhost:8083/api/v1/account"
-    );
+
+      );
     setGridData(response.data);
     setLoading(false);
   };
+
 
   const handleDelete = async (value) => {
     const dataSource = [...modifiedData];
@@ -38,53 +41,40 @@ const DataTable = () => {
     setGridData(filteredData);
     const response = await axios.delete(
       `http://localhost:8083/api/v1/deleteaccount/${value.accountId}`
-      );
+      
+      ).then(res => { console.log(res)
+      })
+     .catch(err => {  
+         console.error(err)
+     });
+  };
+  
+  const DeleteAll = async (value) => {
+    const AccountId = document.getElementById("accountId").accountId;
+    const dataSource = [...modifiedData];
+    const filteredData = dataSource.filter((item) => item.accountId !== value.accountId);
+    setGridData(filteredData);
+    // const response = await axios.delete(
+    //   `http://localhost:8083/api/v1/deleteaccount/${value.accountId}`
+    //   );
+
     // setGridData(response.data);
     // setLoading(false);
+    console.log("Test :",AccountId)
   };
 
-  // const save = async (e) => {
-  //   //console.log("values" ,values)
-  //   const response = await axios.put(
-  //     `http://localhost:8083/api/v1/updateaccount`, {
-  //       accountId : values.accountId,
-  //       username : values.username,
-  //       password : values.password,
-  //       firstname : values.firstname,
-  //       lastname : values.lastname,
-  //       gender : values.gender,
-  //       email : values.email,
-  //       address : values.address,
-  //     });
-  //     //console.log(values)
-  //     //console.log(response)
-  //     try {
-  //       const row = await form.validateFields();
-  //       const newData = [...modifiedData];
-  //       const index = newData.findIndex((item) => values === item.values);
-          
-  //       if (index > -1) {
-  //         const item = newData[index];
-  //         newData.splice(index, 1, { ...item, ...row });
-  //         setGridData(newData);
-  //         setEditingKey("");
-  //       }
-  //     } catch (error) {
-  //       console.log("Error", error);
-  //     }
 
-  // };
 
-  const [values , setValues] = useState({
-    accountId : "",
-    username: "",
-    password: "",
-    firstname: "",
-    lastname: "",
-    gender: "",
-    email: "",
-    address: "",
-  });
+  // const [values , setValues] = useState({
+  //   accountId : "",
+  //   username: "",
+  //   password: "",
+  //   firstname: "",
+  //   lastname: "",
+  //   gender: "",
+  //   email: "",
+  //   address: "",
+  // });
 
   const modifiedData = gridData.map(({ body, ...item }) => ({
     ...item,
@@ -198,34 +188,39 @@ const DataTable = () => {
     setFilteredInfo(filters);
     setSortedInfo({ columnKey: field, order });
   };
-
   console.log("filteredInfo", filteredInfo);
 
   const save = async (value,key) => {
-   
+    const Username = document.getElementById("username").value;
+    const Password = document.getElementById("password").value;
+    const Firstname = document.getElementById("firstname").value;
+    const Lastname = document.getElementById("lastname").value;
+    const Gender = document.getElementById("gender").value;
+    const Email = document.getElementById("email").value;
+    const Address = document.getElementById("address").value;
     const response = await axios.put("http://localhost:8083/api/v1/updateaccount" , {
-        //accountId: value.accountId,
-        accountId : value.accountId,
-        username : values.username,
-        password : values.password,
-        firstname : values.firstname,
-        lastname : values.lastname,
-        gender : values.gender,
-        email : values.email,
-        address : values.address,
-      },
-      //console.log("values :", values)
-        ).then(res => { console.log(res)
-        })
-       .catch(err => {  
-           console.error(err)
-       });;
 
-    try {
+      accountId : value.accountId,
+      username : Username,
+      password : Password,
+      firstname : Firstname,
+      lastname : Lastname,
+      gender : Gender,
+      email : Email,
+      address : Address,
+
+    },
+      ).then(res => { console.log(res)
+      })
+     .catch(err => {  
+         console.error(err)
+     });
+
+
+   try {
       const row = await form.validateFields();
       const newData = [...modifiedData];
       const index = newData.findIndex((item) => key === item.key);
-        
       if (index > -1) {
         const item = newData[index];
         newData.splice(index, 1, { ...item, ...row });
@@ -253,7 +248,6 @@ const DataTable = () => {
         {editing ? (
           <Form.Item  
            name={dataIndex} //edit show text
-           onChange={(e) => setValues({...values,[dataIndex]:e.target.value})}
             style={{
               margin: 0,
             }}
@@ -281,15 +275,17 @@ const DataTable = () => {
   };  
   const columns = [
     {
-      key : "1",
+      id: "accountId",
       title: "ID",
       dataIndex: "accountId",
+      name: "accountId",
       
     },
     {
-      key : "2",
+      id: "username",
       title: "Username",
       dataIndex: "username",
+      name: "username",
       align: "center",
       editable: true,
       sorter: (a, b) => a.username.length - b.username.length,
@@ -297,9 +293,10 @@ const DataTable = () => {
       ...getColumnSearchProps("username"),
     },
     {
-      key : "3",
+      id: "password",
       title: "Password",
       dataIndex: "password",
+      name: "password",
       align: "center",
       editable: true,
       sorter: (a, b) => a.password.length - b.password.length,
@@ -308,8 +305,10 @@ const DataTable = () => {
       
     },
     {
+      id: "firstname",
       title: "Firstname",
       dataIndex: "firstname",
+      name: "firstname",
       align: "center",
       editable: true,
       sorter: (a, b) => a.firstname.length - b.firstname.length,
@@ -317,8 +316,10 @@ const DataTable = () => {
       ...getColumnSearchProps("firstname"),
     },
     {
+      id: "lastname",
       title: "Lastname",
       dataIndex: "lastname",
+      name: "lastname",
       align: "center",
       editable: true,
       sorter: (a, b) => a.lastname.length - b.lastname.length,
@@ -326,8 +327,10 @@ const DataTable = () => {
       ...getColumnSearchProps("lastname"),
     },
     {
+      id: "gender",
       title: "Gender",
       dataIndex: "gender",
+      name: "gender",
       align: "center",
       editable: true,
       sorter: (a, b) => a.gender.length - b.gender.length,
@@ -335,8 +338,10 @@ const DataTable = () => {
       ...getColumnSearchProps("gender"),
     },
     {
+      id: "email",
       title: "Email",
       dataIndex: "email",
+      name: "email",
       align: "center",
       editable: true,
       sorter: (a, b) => a.email.length - b.email.length,
@@ -344,8 +349,10 @@ const DataTable = () => {
       ...getColumnSearchProps("email"),
     },
     {
+      id: "address",
       title: "Address",
       dataIndex: "address",
+      name: "address",
       align: "center",
       editable: true,
       sorter: (a, b) => a.address.length - b.address.length,
@@ -353,6 +360,7 @@ const DataTable = () => {
       ...getColumnSearchProps("address"),
     },
     {
+      
       title: "Actions",
       dataIndex: "actions",
       align: "center",
@@ -372,16 +380,14 @@ const DataTable = () => {
             {editable ? (
               <span>
                 <Space size="middle">
-                  <Button
-                    onClick={() => save(record,record.key)}
-                    
-                    //onClick={(e) => save(record)}
+                <Popconfirm title="Sure to save?" onConfirm={() => save(record,record.key)}>
+                  <Button            
                     type="primary"
-                    style={{ marginRight: 8 }}
-                  
+                   //style={{ marginRight: 8 }}
                   >
                     Save
                   </Button>
+                  </Popconfirm>
                   <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
                     <Button>Cancel</Button>
                   </Popconfirm>
@@ -399,7 +405,6 @@ const DataTable = () => {
   ];
   const isEditing = (record) => {
    return record.key === editingKey
-   //return record.key === editingKey
   };
 
   
@@ -463,6 +468,12 @@ const DataTable = () => {
           Search
         </Button>
         <Button onClick={clearAll}>Clear All</Button>
+        <Popconfirm
+              title="Sure to delete all data?"
+              onConfirm={(e) => DeleteAll(e)}
+            >
+        <Button onClick={DeleteAll} type="primary" danger>Delete All</Button>
+        </Popconfirm>
       </Space>
       <Form form={form} component={false}>
         <Table
