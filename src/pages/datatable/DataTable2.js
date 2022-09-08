@@ -50,17 +50,17 @@ const DataTable = () => {
   };
   
   const DeleteAll = async (value) => {
-    const AccountId = document.getElementById("accountId").accountId;
     const dataSource = [...modifiedData];
     const filteredData = dataSource.filter((item) => item.accountId !== value.accountId);
     setGridData(filteredData);
-    // const response = await axios.delete(
-    //   `http://localhost:8083/api/v1/deleteaccount/${value.accountId}`
-    //   );
-
-    // setGridData(response.data);
-    // setLoading(false);
-    console.log("Test :",AccountId)
+    const response = await axios.delete(
+      `http://localhost:8083/api/v1/DeleteAllAccount`
+      ).then(res => { console.log(res)
+      })
+     .catch(err => {  
+         console.error(err)
+     });
+     loadData();
   };
 
 
@@ -89,7 +89,6 @@ const DataTable = () => {
     
   }));
   console.log("modifiedData", modifiedData);  
-
 
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({
@@ -451,11 +450,11 @@ const DataTable = () => {
     });
     setGridData(filteredData);
   };
-
-  return (
+    return (
     <div>
       <center>
         <h1>Data Account Table</h1>
+        
       <Space style={{ marginBottom: 16 }}>
         <Input
           placeholder="Enter Search Text"
@@ -468,11 +467,13 @@ const DataTable = () => {
           Search
         </Button>
         <Button onClick={clearAll}>Clear All</Button>
+        
         <Popconfirm
+        
               title="Sure to delete all data?"
               onConfirm={(e) => DeleteAll(e)}
             >
-        <Button onClick={DeleteAll} type="primary" danger>Delete All</Button>
+        <Button type="primary" danger>Delete All</Button>
         </Popconfirm>
       </Space>
       <Form form={form} component={false}>
@@ -499,7 +500,7 @@ const DataTable = () => {
       </Form>
       </center>
     </div>
-  );
+  )
 };
 
 export default DataTable;
