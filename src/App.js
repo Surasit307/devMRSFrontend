@@ -6,6 +6,8 @@ import Changepass from './pages/changepass/Changepass';
 import Logout from './pages/logout/Logout';
 import DataTable from './pages/datatable/DataTable';
 import DataTable2 from './pages/datatable/DataTable2';
+import List_Auction from './pages/datatable/List_Auction';
+import Test from './pages/test/Test';
 
 
 const App = () => {
@@ -23,6 +25,8 @@ const App = () => {
           <Route path="/logout" element={<Logout/>} />
           //<Route path="/datatable" element={<DataTable/>} />
           <Route path="/datatable2" element={<DataTable2/>} />
+          <Route path="/list_auction" element={<List_Auction/>} />
+          <Route path="/test" element={<Test/>} />
           {/* <Route path="*" element={<NoPage />} /> */}
         </Routes>
 

@@ -10,7 +10,7 @@ const Signup = () => {
     const handleSignup = (e) => {
         e.preventDefault();
         axios
-            .post("http://localhost:8083/api/v1/account",{
+            .post("http://localhost:8083/api/v1/createAccount",{
                 username : values.username,
                 password : values.password,
                 firstname : values.firstname,
@@ -74,8 +74,8 @@ const Signup = () => {
                 <TextField
                     id="outlined-password-input"
                     label="Password"
-                    type="password"
                     autoComplete="current-password"
+                    type={values.showPass ? "text" :  "password"}
                     onChange={(e) => setValues({...values,password:e.target.value})}
                 />
             </div>
@@ -109,7 +109,7 @@ const Signup = () => {
                     label="Gender"
                     type="gender"
                     autoComplete="current-gender"
-                    onChange={(e) => setValues({...values,gender    :e.target.value})}
+                    onChange={(e) => setValues({...values,gender:e.target.value})}
                 />
             </div>
 

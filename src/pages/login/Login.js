@@ -5,6 +5,7 @@ import axios from 'axios';
 
 
 
+
 const Login = () => {
     const navigate = useNavigate();
     //const location = useLocation();
@@ -42,6 +43,7 @@ const Login = () => {
 
       });
     console.log(values);
+
     const handlePassVisibility = () => {
         setValues ({
             ...values,
@@ -62,17 +64,21 @@ const Login = () => {
                     required
                     id="outlined-required"
                     label="Username"
+                    placeholder="input username"
                     onChange={(e) => setValues({...values,username:e.target.value})}
+                    
                 />
             </div>
 
             <br />
             <div>
-                <TextField required
+                <TextField 
+                    required
                     id="outlined-password-input"
                     label="Password"
                     type={values.showPass ? "text" :  "password"}
                     autoComplete="current-password"
+                    placeholder="input password"
                     onChange={(e) => setValues({...values,password:e.target.value})}
                 />
             </div>
@@ -89,7 +95,7 @@ const Login = () => {
 
             <br />
             <div>
-                <Button variant="contained" onClick={handleSignin}>Signin</Button>
+                <Button variant="contained" onClick={handleSignin}>Sign in</Button>
                 
             </div>
             </center>
