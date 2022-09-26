@@ -21,7 +21,7 @@ const Login = () => {
              .then(res => { console.log(res)
               alert("Success")
               localStorage.setItem("username", values.username);    
-              navigate('/logout');
+              navigate('/list_auction');
                      
              })
             .catch(err => {     

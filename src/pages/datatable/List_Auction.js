@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect} from "react";
 import axios from "axios";
-import { Table, Popconfirm, Button, Space, Form, Input ,Upload} from "antd";
-import { isEmpty } from "lodash";
+import { Table, Popconfirm, Button, Space, Form, Input ,Upload , Image , Checkbox, message } from "antd";
 import { RightCircleTwoTone, SearchOutlined ,UploadOutlined} from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 // import "antd/dist/antd.css";
 import 'antd/dist/antd.min.css';
-import './DataTable.css';
-
+import './DataTable.css'; 
+import Moment from 'moment';
 
 
 const List_Auction = () => {
@@ -21,40 +20,31 @@ const List_Auction = () => {
   const [searchedCol, setSearchedCol] = useState("");
   let [filteredInfo, setFilteredInfo] = useState({});
   let [filteredData] = useState();
-
+  
   useEffect(() => {
     loadData();
   }, []);
 
   const loadData = async () => {
-   
     setLoading(true);
     const response = await axios.get(
       "http://localhost:8083/api/v1/ListAuction",
       ).then(res => { console.log(res)
-        // const dataByte = res.data[0].image1;
-        // const base64String = btoa(String.fromCharCode(...new Uint8Array(dataByte)));
-        // let base64ImageString = Buffer.from(dataByte).toString('base64')
-        // console.log("image1 :" ,base64ImageString)
-        // console.log("image1 :" ,res.data[0].image1)
         setGridData(res.data);
         setLoading(false);
-
       })
      .catch(err => {  
          console.error(err)
      });;
-
-    
   };
 
   const handleDelete = async (value) => {
     const dataSource = [...modifiedData];
-    const filteredData = dataSource.filter((item) => item.accountId !== value.accountId);
+    const filteredData = dataSource.filter((item) => item.auctionId !== value.auctionId);
     setGridData(filteredData);
     const response = await axios.delete(
-      `http://localhost:8083/api/v1/deleteaccount/${value.accountId}`
-      
+      `http://localhost:8083/api/v1/deleteAuctionById/${value.auctionId}`
+
       ).then(res => { console.log(res)
       })
      .catch(err => {  
@@ -64,10 +54,10 @@ const List_Auction = () => {
   
   const DeleteAll = async (value) => {
     const dataSource = [...modifiedData];
-    const filteredData = dataSource.filter((item) => item.accountId !== value.accountId);
+    const filteredData = dataSource.filter((item) => item.auctionId !== value.auctionId);
     setGridData(filteredData);
     const response = await axios.delete(
-      `http://localhost:8083/api/v1/DeleteAllAccount`
+      `http://localhost:8083/api/v1/DeleteAllAuction`
       ).then(res => { console.log(res)
       })
      .catch(err => {  
@@ -76,51 +66,149 @@ const List_Auction = () => {
      loadData();
   };
 
-  const [selectImage,setSelectImage] = useState();
-  // On file select (from the pop up)
-  // const onFileChange = (event) => {
-  //   // Update the state
-  //  const value =  setSelectImage(event.target.files) ;
-  // };
+  const [selectImage1,setSelectImage1] = useState();
+  const [selectImage2,setSelectImage2] = useState();
+  const [selectImage3,setSelectImage3] = useState();
+  const [selectImage4,setSelectImage4] = useState();
+  const [selectImage5,setSelectImage5] = useState();
+  const [selectVideo1,setSelectVideo1] = useState();
+  const [selectVideo2,setSelectVideo2] = useState();
 
-  console.log("selectImage: ",selectImage)
 
-  // On file upload (click the upload button)
-  const onFileUpload = () => {
-    
-    // console.log(this.state.selectedFile)
-    // Create an object of formData
+  const onFileUploadImage1 = async (value,key) => {
     const formData = new FormData();
-    formData.append("auctionId", "1");
-    Array.from(selectImage).forEach((file) => {
-      // Update the formData object
-      formData.append("fileImage", file);
-    });
-    // Request made to the backend api
-    // Send formData object
-    axios.post("http://localhost:8083/api/v1/updateAuctionImages", formData);
+    formData.append("auctionId", value.id);
+    Array.from(selectImage1).forEach((file) => {
+      formData.append("fileImage",file);
+      console.log("file" ,file)
+  })
+    const response = await axios.post("http://localhost:8083/api/v1/updateAuctionImages1" , formData
+      ).then(res => { console.log(res)
+        message.success("Upload Success")
+      })
+     .catch(err => {  
+         console.error(err)
+         message.error("The file size may be too large")
+     });
   };
 
+  const onFileUploadImage2 = async (value,key) => {
+    const formData = new FormData();
+    formData.append("auctionId", value.id);
+    Array.from(selectImage2).forEach((file) => {
+      formData.append("fileImage",file);
+      console.log("file" ,file)
+  })
+    const response = await axios.post("http://localhost:8083/api/v1/updateAuctionImages2" , formData
+      ).then(res => { console.log(res)
+        message.success("Upload Success")
+      })
+     .catch(err => {  
+         console.error(err)
+         message.error("The file size may be too large")
+     });
+  };
 
-  const modifiedData = gridData.map(({ body, ...item }) => ({
+  const onFileUploadImage3 = async (value,key) => {
+    const formData = new FormData();
+    formData.append("auctionId", value.id);
+    Array.from(selectImage3).forEach((file) => {
+      formData.append("fileImage",file);
+      console.log("file" ,file)
+  })
+    const response = await axios.post("http://localhost:8083/api/v1/updateAuctionImages3" , formData
+      ).then(res => { console.log(res)
+        message.success("Upload Success")
+      })
+     .catch(err => {  
+         console.error(err)
+         message.error("The file size may be too large")
+     });
+  };
+
+  const onFileUploadImage4 = async (value,key) => {
+    const formData = new FormData();
+    formData.append("auctionId", value.id);
+    Array.from(selectImage4).forEach((file) => {
+      formData.append("fileImage",file);
+  })
+    const response = await axios.post("http://localhost:8083/api/v1/updateAuctionImages4" , formData
+      ).then(res => { console.log(res)
+        message.success("Upload Success")
+      })
+     .catch(err => {  
+         console.error(err)
+         message.error("The file size may be too large")
+     });
+  };
+
+  const onFileUploadImage5 = async (value,key) => {
+    const formData = new FormData();
+    formData.append("auctionId", value.id);
+    Array.from(selectImage5).forEach((file) => {
+      formData.append("fileImage",file);
+  })
+    const response = await axios.post("http://localhost:8083/api/v1/updateAuctionImages5" , formData
+      ).then(res => { console.log(res)
+        message.success("Upload Success")
+      })
+     .catch(err => {  
+         console.error(err)
+         message.error("The file size may be too large")
+     });
+
+  };
+
+    const onFileUploadVideo1 = async (value,key) => {
+    const formData = new FormData();
+    formData.append("auctionId", value.id);
+    Array.from(selectVideo1).forEach((file) => {
+      formData.append("fileVideo",file);
+  })
+    const response = await axios.post("http://localhost:8083/api/v1/updateAuctionVideo1" , formData
+      ).then(res => { console.log(res)
+        message.success("Upload Success")
+      })
+     .catch(err => {  
+         console.error(err)
+         message.error('Maximum file video size 5MB')
+     });
+  };
+
+  const onFileUploadVideo2 = async (value,key) => {
+    const formData = new FormData();
+    formData.append("auctionId", value.id);
+    Array.from(selectVideo2).forEach((file) => {
+      formData.append("fileVideo",file);
+  })
+    const response = await axios.post("http://localhost:8083/api/v1/updateAuctionVideo2" , formData
+      ).then(res => { console.log(res)
+        message.success("Upload Success")
+      })
+     .catch(err => {  
+         console.error(err)
+         message.error('Maximum file video size 5MB')
+     });
+  };
+
+  //Show Output DataTalble use dataIndex from column
+  const modifiedData = gridData.map(({ body, ...item }) => ({ 
     ...item,
     key: item.id,
-    product_id : item.product_id,
+    productId : item.idProduct,
     username : item.username,
-    product_name : item.productName,
-    // image_1 : item.image1,  
-    // image_2 : item.image2,  
-    // image_3 : item.image3,  
-    // image_4 : item.image4,  
-    // image_5 : item.image5,  
-    // video_1 : item.video1,  
-    // video_2 : item.video2,  
+    productName : item.productName,
+    image1 : item.image1,  
+    image2 : item.image2,  
+    image3 : item.image3,  
+    image4 : item.image4,  
+    image5 : item.image5,  
+    video1 : item.video1,  
+    video2 : item.video2,  
     price : item.price,
-    user_bid : item.userBid,
-    price_winner : item.priceWinner,
+    userBid : item.userBid,
+    priceWinner : item.priceWinner,
     view : item.view,
-
-    
   }));
   console.log("modifiedData", modifiedData);  
 
@@ -135,7 +223,7 @@ const List_Auction = () => {
         <Input
           placeholder={`Search ${dataIndex}`}
           value={selectedKeys[0]}
-          onChange={(e) =>
+          onChange={(e) =>  
             setSelectedKeys(e.target.value ? [e.target.value] : [])
           }
           onPressEnter={() => handleSearchCol(selectedKeys, confirm, dataIndex)}
@@ -197,14 +285,19 @@ const List_Auction = () => {
 
   const edit = (record) => {
     form.setFieldsValue({
-      accountId: "",
+      auctionId : "",
       username : "",
-      password : "",
-      firstname : "",
-      lastname : "",
-      gender : "",
-      email : "",
-      address : "",
+      productId : "",
+      productName : "",
+      image1 : "",
+      image2 : "",
+      image3 : "",
+      image4 : "",
+      image5 : "",
+      price : "",
+      userBid : "",
+      priceWinner : "",
+      view : "",
       ...record,
     });
     setEditingKey(record.key);
@@ -225,28 +318,29 @@ const List_Auction = () => {
 
   const save = async (value,key) => {
     const Username = document.getElementById("username").value;
-    const Password = document.getElementById("password").value;
-    const Firstname = document.getElementById("firstname").value;
-    const Lastname = document.getElementById("lastname").value;
-    const Gender = document.getElementById("gender").value;
-    const Email = document.getElementById("email").value;
-    const Address = document.getElementById("address").value;
-    const response = await axios.put("http://localhost:8083/api/v1/updateaccount" , {
+    const ProductName = document.getElementById("productName").value;
+    const Price = document.getElementById("price").value;
+    const Userbid = document.getElementById("userBid").value;
+    const PriceWinner = document.getElementById("priceWinner").value;
+    const View = document.getElementById("view").value;
 
-      accountId : value.accountId,
-      username : Username,
-      password : Password,
-      firstname : Firstname,
-      lastname : Lastname,
-      gender : Gender,
-      email : Email,
-      address : Address,
+    const formData = new FormData();
+    formData.append("auctionId", value.id);
+    formData.append("username", Username);
+    formData.append("productId", value.idProduct);
+    formData.append("productName", ProductName);
+    formData.append("price", Price);
+    formData.append("userBid", Userbid);
+    formData.append("priceWinner", PriceWinner);
+    formData.append("view", View);
 
-    },
+    const response = await axios.post("http://localhost:8083/api/v1/updateListAuction" , formData
       ).then(res => { console.log(res)
+        message.success("Update Success")
       })
      .catch(err => {  
          console.error(err)
+         message.success("Update Failed")
      });
 
 
@@ -263,6 +357,8 @@ const List_Auction = () => {
     } catch (error) {
       console.log("Error", error);
     }
+    // loadData();
+    window.location.reload();
   };
 
   const EditableCell = ({
@@ -291,42 +387,26 @@ const List_Auction = () => {
 
               },
             ]}
-            
           >
-          
             {input}
           </Form.Item>
         ) : (
           children
-          
-          
         )}
       </td>
-      
     );
-    
   };  
 
   const columns = [
-    {
+    { //Column ID
       id: "id",
       title: "ID",
       dataIndex: "id",
       name: "id",
       align : "center",
       width : 100,
-      
     },
-    {
-        id: "product_id",
-        title: "Product_id",
-        dataIndex: "product_id",
-        name: "product_id",
-        align : "center",   
-        width : 150,
-        
-      },
-    {
+    { //Column Username
       id: "username",
       title: "Username",
       dataIndex: "username",
@@ -338,31 +418,107 @@ const List_Auction = () => {
       sortOrder: sortedInfo.columnKey === "username" && sortedInfo.order,
       ...getColumnSearchProps("username"),
     },
-    {
-      id: "product_name",
+    { //Column ProductId
+      id: "idProduct",
+      title: "Product_Id",
+      dataIndex: "idProduct",
+      name: "idProduct",
+      align : "center",   
+      width : 150,
+    },
+    { //Column ProductName
+      id: "productName",
       title: "Product_name",
-      dataIndex: "product_name",
-      name: "product_name",
+      dataIndex: "productName",
+      name: "productName",
       align: "center",
       width : 150,
       editable: true,
-      sorter: (a, b) => a.product_name.length - b.product_name.length,
-      sortOrder: sortedInfo.columnKey === "product_name" && sortedInfo.order,
-      ...getColumnSearchProps("product_name"),
-      
+      sorter: (a, b) => a.productName.length - b.productName.length,
+      sortOrder: sortedInfo.columnKey === "productName" && sortedInfo.order,
+      ...getColumnSearchProps("productName"),
     },
     {
-        id: "image_1",
-        title: "Image_1",
-        dataIndex: "image_1",
-        name: "image_1",
+        id: "image1",
+        title: "Image1",
+        dataIndex: "image1",
+        name: "image1",
         align: "center",
         width : 300,
-        type : "file",
-        editable: false ,
-        // sorter: (a, b) => a.image_1.length - b.image_1.length,
-        // sortOrder: sortedInfo.columnKey === "image_1" && sortedInfo.order,
-        // ...getColumnSearchProps("image_1"),  
+        editable: false ,  
+        
+        render: (_, record) => {
+          const editable = isEditing(record); 
+          return modifiedData.length >= 1 ? (
+            
+            <Space>
+              {editable ? ( 
+                
+              <div>
+                <div className = "imageUpload">
+                <Upload
+                id ="uploadImage1"
+                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                defaultFileList={selectImage1}
+                // fileList={selectImage1}
+                // listType="picture"
+                // action={"http://localhost:3000/list_auction"}
+                maxCount={1}
+                accept=".png,.jpeg,.jpg,.gif,image/*"
+                beforeUpload={(ImageFile) => {    
+                  // console.log("ImageFile1",ImageFile) 
+                  const isLt2M = ImageFile.size / 1024 / 1024 < 1;
+                  if(!isLt2M){
+                    ImageFile.flag=true;
+                    message.error('Maximum file image size 1MB')
+                    return true
+                  }  
+                setSelectImage1([ImageFile])    
+                return true;  
+              }}    
+              >
+                <Button>Browser Image (Max: 1)</Button>
+              </Upload>
+              
+              </div>
+              <br></br>
+              {/* <Button onClick ={onFileUpload} icon={<UploadOutlined /> }>Upload</Button> */}
+              <Space size="middle">
+                <Popconfirm title="Sure to save?" onConfirm={() => onFileUploadImage1(record,record.key)}>
+                  <Button       
+                    icon={<UploadOutlined /> }     
+                    type="primary"
+                   //style={{ marginRight: 8 }}
+                  >
+                    Upload
+                  </Button>
+                  </Popconfirm>
+                  </Space>
+              </div>
+              ) 
+              : (
+                <div> 
+                 <Image 
+                 width = {200} 
+                 height = {120} 
+                 src = {`data:image/jpg;base64,${record.image1} `}/>
+              </div>
+               )
+            }
+             </Space >         
+          ) : null;    
+              
+        },
+      
+      },    
+      {
+        id: "image2",
+        title: "Image2",
+        dataIndex: "image2",
+        name: "image2",
+        align: "center",
+        width : 300,
+        editable : false,
         render: (_, record) => {
           const editable = isEditing(record);
           return modifiedData.length >= 1 ? (
@@ -372,125 +528,345 @@ const List_Auction = () => {
                 <span>
 
               <div>
-              {/* <input type="file" onChange={onFileChange}  />
-              <button onClick={onFileUpload}>Upload!</button> */}
-
+                <div className = "imageUpload">
                 <Upload
-                id ="uploadImage1"
+                id ="uploadImage2"
                 action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                listType="picture"
+                defaultFileList={selectImage2}
+                // listType="picture"
                 // action={"http://localhost:3000/list_auction"}
                 maxCount={1}
-                accept=".png,.jpeg,.jpg"
-                // showUploadList={{showRemoveIcon :true}}
-                beforeUpload={(fileImage) => {
-                  // setSelectImage (fileImage)
-                   console.log("file : ",fileImage);
-                return true;
+                accept=".png,.jpeg,.jpg,.gif,image/*"
+                beforeUpload={(ImageFile) => {  
+                  const isLt2M = ImageFile.size / 1024 / 1024 < 1;
+                  if(!isLt2M){
+                    ImageFile.flag=true;
+                    message.error('Maximum file image size 1MB')
+                    return true
+                  }    
+                  setSelectImage2([ImageFile])
+                  //  console.log("file : ",[ImageFile]);
+                return false;
               }}
               >
-                <Button icon={<UploadOutlined /> }>Upload (Max: 1)</Button>
-
+                <Button>Browser Image (Max: 1)</Button>
+                
               </Upload>
+              </div>
+              <br></br>
+              <Space size="middle">
+                <Popconfirm title="Sure to save?" onConfirm={() => onFileUploadImage2(record,record.key)}>
+                  <Button       
+                      icon={<UploadOutlined /> }     
+                    type="primary"
+                   //style={{ marginRight: 8 }}
+                  >
+                    Upload
+                  </Button>
+                  </Popconfirm>
+                  </Space>
               </div>
 
                 </span>
               ) 
               : (
-                <div>
-                {/* <Upload
-                id ="uploadImage1"
-                //action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                listType="picture"
-                action={"http://localhost:3000/list_auction"}
-                maxCount={1}
-                accept=".png,.jpeg,.jpg"
-                beforeUpload={(fileImage) => {
-                  setSelectImage(fileImage)
-                  console.log("file : ",test);
-                  return true;
-                }}
-              >
-                <Button icon={<UploadOutlined /> }>Upload (Max: 1)</Button>
-              </Upload> */}
-
-                </div>
-                // <td> 
-
-                // </td>  
-             
+                <div> 
+                 <Image 
+                 width = {200} 
+                 height = {120} 
+                 src = {`data:image/jpg;base64,${record.image2} `}/>
+              </div>
                )
             }
-  
-             </Space >
-            
-          ) : null;
-          
+             </Space >         
+          ) : null;         
         },
-      
-      },    
-      {
-        id: "image_2",
-        title: "Image_2",
-        dataIndex: "image_2",
-        name: "image_2",
-        align: "center",
-        width : 150,
-        // editable: true,
-        // sorter: (a, b) => a.image_2.length - b.image_2.length,
-        // sortOrder: sortedInfo.columnKey === "image_2" && sortedInfo.order,
-        // ...getColumnSearchProps("image_2"),
         
       },    
       {
-        id: "image_3",
-        title: "Image_3",
-        dataIndex: "image_3",
-        name: "image_3",
+        id: "image3",
+        title: "Image3",
+        dataIndex: "image3",
+        name: "image3",
         align: "center",
-        width : 150,
-        // editable: true,
-        // sorter: (a, b) => a.image_3.length - b.image_3.length,
-        // sortOrder: sortedInfo.columnKey === "image_3" && sortedInfo.order,
-        // ...getColumnSearchProps("image_3"),
+        width : 300,
+        render: (_, record) => {
+          const editable = isEditing(record);
+          return modifiedData.length >= 1 ? (
+            <Space>
+              {editable ? (
+                  
+                <span>
+
+              <div>
+                <div className = "imageUpload">
+                <Upload
+                id ="uploadImage3"
+                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                defaultFileList={selectImage3}
+                // listType="picture"
+                // action={"http://localhost:3000/list_auction"}
+                maxCount={1}
+                accept=".png,.jpeg,.jpg,.gif,image/*"
+                showUploadList={{showRemoveIcon :true}}
+                beforeUpload={(ImageFile) => {    
+                  const isLt2M = ImageFile.size / 1024 / 1024 < 1;
+                  if(!isLt2M){
+                    ImageFile.flag=true;
+                    message.error('Maximum file image size 1MB')
+                    return true
+                  }  
+                  setSelectImage3([ImageFile])
+                  //  console.log("file : ",fileImage);
+                return false;
+              }}
+              >
+                <Button>Browser Image (Max: 1)</Button>
+                
+              </Upload>
+              </div>
+              <br></br>
+              <Space size="middle">
+                <Popconfirm title="Sure to save?" onConfirm={() => onFileUploadImage3(record,record.key)}>
+                  <Button       
+                      icon={<UploadOutlined /> }     
+                    type="primary"
+                   //style={{ marginRight: 8 }}
+                  >
+                    Upload
+                  </Button>
+                  </Popconfirm>
+                  </Space>
+              </div>
+
+                </span>
+              ) 
+              : (
+                <div> 
+                 <Image 
+                 width = {200} 
+                 height = {120} 
+                 src = {`data:image/jpg;base64,${record.image3} `}/>
+              </div>
+               )
+            }
+             </Space >         
+          ) : null;         
+        },
         
       },    
       {
-        id: "image_4",
-        title: "Image_4",
-        dataIndex: "image_4",
-        name: "image_4",
+        id: "image4",
+        title: "Image4",
+        dataIndex: "image4",
+        name: "image4",
         align: "center",
-        width : 150,
-        // editable: true,
-        // sorter: (a, b) => a.image_4.length - b.image_4.length,
-        // sortOrder: sortedInfo.columnKey === "image_4" && sortedInfo.order,
-        // ...getColumnSearchProps("image_4"),
+        width : 300,
+        render: (_, record) => {
+          const editable = isEditing(record);
+          return modifiedData.length >= 1 ? (
+            <Space>
+              {editable ? (
+                  
+                <span>
+
+              <div>
+              <div className = "imageUpload">
+                <Upload
+                id ="uploadImage4"
+                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                // listType="picture"
+                defaultFileList={selectImage4}
+                // action={"http://localhost:3000/list_auction"}
+                maxCount={1}
+                accept=".png,.jpeg,.jpg,.gif,image/*"
+                beforeUpload={(ImageFile) => {  
+                  const isLt2M = ImageFile.size / 1024 / 1024 < 1;
+                  if(!isLt2M){
+                    ImageFile.flag=true;
+                    message.error('Maximum file image size 1MB')
+                    return true
+                  }    
+                  setSelectImage4([ImageFile])
+                  //  console.log("file : ",fileImage);
+                return false;
+              }}
+              >
+                <Button>Browser Image (Max: 1)</Button>
+                
+              </Upload>
+              </div>
+              <br></br>
+              <Space size="middle">
+                <Popconfirm title="Sure to save?" onConfirm={() => onFileUploadImage4(record,record.key)}>
+                  <Button       
+                      icon={<UploadOutlined /> }     
+                    type="primary"
+                   //style={{ marginRight: 8 }}
+                  >
+                    Upload
+                  </Button>
+                  </Popconfirm>
+                  </Space>
+              </div>
+
+                </span>
+              ) 
+              : (
+                <div> 
+                 <Image 
+                 width = {200} 
+                 height = {120} 
+                 src = {`data:image/jpg;base64,${record.image4} `}/>
+              </div>
+               )
+            }
+             </Space >         
+          ) : null;         
+        },
         
       },    
       {
-        id: "image_5",
-        title: "Image_5",
-        dataIndex: "image_5",
-        name: "image_5",
+        id: "image5",
+        title: "Image5",
+        dataIndex: "image5",
+        name: "image5",
         align: "center",
-        width : 150,
-        // editable: true,
-        // sorter: (a, b) => a.image_5.length - b.image_5.length,
-        // sortOrder: sortedInfo.columnKey === "image_5" && sortedInfo.order,
-        // ...getColumnSearchProps("image_5"),
+        width : 300,
+        render: (_, record) => {
+          const editable = isEditing(record);
+          return modifiedData.length >= 1 ? (
+            <Space>
+              {editable ? (
+                  
+                <span>
+
+              <div>
+              <div className = "imageUpload">
+                <Upload
+                id ="uploadImage5"
+                action="https://www.mocky.io/v2/5cc8019d30000980a055e76"
+                // listType="picture"
+                defaultFileList={selectImage5}
+                // action={"http://localhost:3000/list_auction"}
+                maxCount={1}
+                accept=".png,.jpeg,.jpg,.gif,image/*"
+                beforeUpload={(ImageFile) => {    
+                  const isLt2M = ImageFile.size / 1024 / 1024 < 1;
+                  if(!isLt2M){
+                    ImageFile.flag=true;
+                    message.error('Maximum file image size 1MB')
+                    return true
+                  }  
+                  setSelectImage5([ImageFile])
+                  //  console.log("file : ",selectImage5);
+                return false;
+              }}
+              >
+                <Button>Browser Image (Max: 1)</Button>
+                
+              </Upload>
+              </div>
+              <br></br>
+              <Space size="middle">
+                <Popconfirm title="Sure to save?" onConfirm={() => onFileUploadImage5(record,record.key)}>
+                  <Button       
+                      icon={<UploadOutlined /> }     
+                    type="primary"
+                   //style={{ marginRight: 8 }}
+                  >
+                    Upload
+                  </Button>
+                  </Popconfirm>
+                  </Space>
+              </div>
+
+                </span>
+              ) 
+              : (
+                <div> 
+                 <Image   
+                 width = {200} 
+                 height = {120} 
+                 src = {`data:image/jpg;base64,${record.image5} `}/>
+              </div>
+               )
+            }
+             </Space >         
+          ) : null;         
+        },
       },    
       {
-        id: "video_1",
-        title: "Video_1",
-        dataIndex: "video_1",
-        name: "video_1",
+        id: "video1",
+        title: "Video1",
+        dataIndex: "video1",
+        name: "video1",
         align: "center",
-        width : 150,
-        // editable: true,
-        sorter: (a, b) => a.video_1.length - b.video_1.length,
-        sortOrder: sortedInfo.columnKey === "video_1" && sortedInfo.order,
-        ...getColumnSearchProps("video_1"),
+        width : 300,
+        render: (_, record) => {
+          const editable = isEditing(record);
+          return modifiedData.length >= 1 ? (
+            <Space>
+              {editable ? (
+                  
+                <span>
+              <div>
+              <div className="imageUpload">
+                <Upload
+                id ="uploadVideo1"
+                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                // listType="video"
+                // action={"http://localhost:3000/list_auction"}
+                defaultFileList={selectVideo1}
+                maxCount={1}
+                accept=".mp4"
+                beforeUpload={(VideoFile) => {    
+                  const isLt2M = VideoFile.size / 1024 / 1024 < 5;
+                  if(!isLt2M){
+                    VideoFile.flag=true;
+                    message.error('Maximum file video size 5MB')
+                    return true
+                  }
+                  setSelectVideo1([VideoFile])
+                  //  console.log("file : ",fileImage);
+                return true;
+              }}
+              >
+                <Button>Browser Video (Max: 1)</Button>
+                
+              </Upload>
+              </div>
+              <br></br>
+              <Space size="middle">
+                <Popconfirm title="Sure to save?" onConfirm={() => onFileUploadVideo1(record,record.key)}>
+                  <Button       
+                      icon={<UploadOutlined /> }     
+                    type="primary"
+                   //style={{ marginRight: 8 }}
+                  >
+                    Upload
+                  </Button>
+                  </Popconfirm>
+                  </Space>
+              </div>
+
+                </span>
+              )   
+              : (           
+                <div>
+                <video controls ={true}
+                src = {`data:video/mp4;base64,${record.video1} `}         
+               type="video/mp4" 
+               width = {200} 
+               height = {120} 
+               /> 
+              </div>
+               )
+            }
+             </Space >         
+          ) : null;         
+        },
+        
       },  
       {
         id: "video_2",
@@ -498,38 +874,103 @@ const List_Auction = () => {
         dataIndex: "video_2",
         name: "video_2",
         align: "center",
-        width : 150,
-        // editable: true,
-        sorter: (a, b) => a.video_2.length - b.video_2.length,
-        sortOrder: sortedInfo.columnKey === "video_2" && sortedInfo.order,
-        ...getColumnSearchProps("video_2"),
+        width : 300,
+        render: (_, record) => {
+          const editable = isEditing(record);
+          return modifiedData.length >= 1 ? (
+            <Space>
+              {editable ? (
+                <span>
+              <div>
+              <div className="imageUpload">
+                <Upload
+                id ="uploadVideo2"
+                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                defaultFileList={selectVideo2}
+                // action={"http://localhost:3000/list_auction"}
+                maxCount={1}
+                accept=".mp4"
+                beforeUpload={(VideoFile) => {    
+                  const isLt5M = VideoFile.size / 1024 / 1024 < 5;
+                  if(!isLt5M){
+                    VideoFile.flag=true;
+                    message.error('Maximum file video size 5MB')
+                    return true
+                  }
+                  setSelectVideo2([VideoFile])
+                  //  console.log("file : ",fileImage);
+                return true;
+              }}
+              >
+                <Button>Browser Video (Max: 1)</Button>
+                
+              </Upload>
+              </div>
+              <br></br>
+              {/* <Button onClick ={onFileUpload} icon={<UploadOutlined /> }>Upload</Button> */}
+              <Space size="middle">
+                <Popconfirm title="Sure to save?" onConfirm={() => onFileUploadVideo2(record,record.key)}>
+                  <Button       
+                      icon={<UploadOutlined /> }     
+                    type="primary"
+                   //style={{ marginRight: 8 }}
+                  >
+                    Upload
+                  </Button>
+                  </Popconfirm>
+                  </Space>
+              </div>
+                </span>
+              ) 
+              : (
+                <div>
+              <video controls ={true}
+              src = {`data:video/mp4;base64,${record.video2} `}
+              type="video/mp4"
+              width = {200} 
+              height = {120} 
+              />
+                </div>
+               )
+            }
+             </Space >         
+          ) : null;         
+        },
         
       },
-      {
+      {//Column Time
         id: "time",
         title: "Time",
         dataIndex: "time",
         name: "time",
         align: "center",
         width : 150,
-        editable: true,
-        sorter: (a, b) => a.time.length - b.time.length,
-        sortOrder: sortedInfo.columnKey === "time" && sortedInfo.order,
-        ...getColumnSearchProps("time"),
+        // editable: true,
+        // sorter: (a, b) => a.time.length - b.time.length,
+        // sortOrder: sortedInfo.columnKey === "time" && sortedInfo.order,
+        // ...getColumnSearchProps("time"),
       },
-      {
+      { //Column Date
         id: "date",
         title: "Date",
         dataIndex: "date",
         name: "date",
         align: "center",
-        width : 150,
-        editable: true,
-        sorter: (a, b) => a.date.length - b.date.length,
-        sortOrder: sortedInfo.columnKey === "date" && sortedInfo.order,
-        ...getColumnSearchProps("date"),
+        width : 250,
+        render: (_,record) => {
+          const formatDate = Moment(record.date).format('DD-MM-YYYY')
+                return (
+          <div>
+            {formatDate}
+          </div>
+        );
+      }
+        // editable: true,
+        // sorter: (a, b) => a.date.length - b.date.length,
+        // sortOrder: sortedInfo.columnKey === "date" && sortedInfo.order,
+        // ...getColumnSearchProps("date"),
       },
-    {
+    { //Column Price
       id: "price",
       title: "Price",
       dataIndex: "price",
@@ -537,35 +978,35 @@ const List_Auction = () => {
       align: "center",
       width : 150,
       editable: true,
-      sorter: (a, b) => a.price.length - b.price.length,
-      sortOrder: sortedInfo.columnKey === "price" && sortedInfo.order,
-      ...getColumnSearchProps("price"),
+      // sorter: (a, b) => a.price.length - b.price.length,
+      // sortOrder: sortedInfo.columnKey === "price" && sortedInfo.order,
+      // ...getColumnSearchProps("price"),
     },
-    {
-        id: "user_bid",
-        title: "User_bid",
-        dataIndex: "user_bid",
-        name: "user_bid",
+    { //Column UserBid
+        id: "userBid",
+        title: "UserBid",
+        dataIndex: "userBid",
+        name: "userBid",
+        align: "center",
+        width : 300,
+        editable: true,
+        sorter: (a, b) => a.userBid.length - b.userBid.length,
+        sortOrder: sortedInfo.columnKey === "userBid" && sortedInfo.order,
+        ...getColumnSearchProps("userBid"),
+      },
+    { //Column PriceWinner
+        id: "priceWinner",
+        title: "Price winner",
+        dataIndex: "priceWinner",
+        name: "priceWinner",
         align: "center",
         width : 150,
         editable: true,
-        sorter: (a, b) => a.user_bid.length - b.user_bid.length,
-        sortOrder: sortedInfo.columnKey === "user_bid" && sortedInfo.order,
-        ...getColumnSearchProps("user_bid"),
+        // sorter: (a, b) => a.priceWinner.length - b.priceWinner.length,
+        // sortOrder: sortedInfo.columnKey === "priceWinner" && sortedInfo.order,
+        // ...getColumnSearchProps("priceWinner"),
       },
-    {
-        id: "price_winner",
-        title: "price_winner",
-        dataIndex: "price_winner",
-        name: "price_winner",
-        align: "center",
-        width : 150,
-        editable: true,
-        sorter: (a, b) => a.price_winner.length - b.price_winner.length,
-        sortOrder: sortedInfo.columnKey === "price_winner" && sortedInfo.order,
-        ...getColumnSearchProps("price_winner"),
-      },
-    {
+    { //Column View
       id: "view",
       title: "view",
       dataIndex: "view",
@@ -573,11 +1014,11 @@ const List_Auction = () => {
       align: "center",
       width : 150,
       editable: true,
-      sorter: (a, b) => a.view.length - b.view.length,
-      sortOrder: sortedInfo.columnKey === "view" && sortedInfo.order,
-      ...getColumnSearchProps("view"),
+      // sorter: (a, b) => a.view.length - b.view.length,
+      // sortOrder: sortedInfo.columnKey === "view" && sortedInfo.order,
+      // ...getColumnSearchProps("view"),
     },
-    {
+    { //Column Action
       
       title: "Actions",
       dataIndex: "actions",
@@ -633,13 +1074,13 @@ const List_Auction = () => {
     return record.key === editingKey
   };
 
-  
-
   const clearAll = () => {
     setSortedInfo({});
     setFilteredInfo({});
     setSearchText("");
-    loadData();
+    window.location.reload();
+
+      
   };
 
   const mergedColumns = columns.map((col) => {
@@ -663,16 +1104,33 @@ const List_Auction = () => {
       loadData();
     }
   };
+
+  const onCheckVideo = (e) => {
+    console.log(`checked = ${e.target.checked}`);
+    if(e.target.checked === true){
+    const response = axios.get(
+      "http://localhost:8083/api/v1/ListVideoNotNull",
+      ).then(res => { console.log(res)
+        setGridData(res.data);
+        setLoading(false);
+      })
+     .catch(err => {  
+         console.error(err)
+     });;
+    }if(e.target.checked === false){
+      loadData();
+    }
+  }
+
+
   const globalSearch = () => {
+
     filteredData = modifiedData.filter((value) => {
       return (
-        value.username.toLowerCase().includes(searchText.toLowerCase()) || 
-        value.password.toLowerCase().includes(searchText.toLowerCase()) || 
-        value.firstname.toLowerCase().includes(searchText.toLowerCase()) || 
-        value.lastname.toLowerCase().includes(searchText.toLowerCase()) || 
-        value.gender.toLowerCase().includes(searchText.toLowerCase()) || 
-        value.email.toLowerCase().includes(searchText.toLowerCase()) || 
-        value.address.toLowerCase().includes(searchText.toLowerCase())
+        value.username.toLowerCase().includes(searchText.toLowerCase()) ||
+        value.productName.toLowerCase().includes(searchText.toLowerCase()) ||
+        value.userBid.toLowerCase().includes(searchText.toLowerCase()) 
+      
       );
     });
     setGridData(filteredData);
@@ -695,7 +1153,8 @@ const List_Auction = () => {
         <Button type="primary" onClick={globalSearch}>
           Search
         </Button>
-        <Button onClick={clearAll}>Clear All</Button>
+        <Checkbox onChange={onCheckVideo}>Video</Checkbox>
+        <Button onClick={clearAll}  >Refresh</Button>
         
         <Popconfirm
               title="Sure to delete all data?"
@@ -713,13 +1172,6 @@ const List_Auction = () => {
             },
           }}
           columns={mergedColumns}
-          // expandable={{
-          //   expandedRowRender: (record) => (
-          //     <p style={{ margin: 0 }}>{record.info}</p>
-          //   ),
-          //   rowExpandable: (record) => record.info !== "Not Expandable",
-          // }}
-          
           dataSource={
             filteredData && filteredData.length ? filteredData : modifiedData
           }
@@ -729,24 +1181,10 @@ const List_Auction = () => {
         />
       </Form>
       </center>
-      <div>
-          {/* <center>
-      <div>
-        <h3>Test File Upload using FormData Type</h3>
-        <div>
-          <input type="file" onChange={onFileChange}  />
-          <button onClick={onFileUpload}>Upload!</button>
 
-        </div>
-      </div>
-      </center> */}
-      </div>
-    </div>
-    
-    
+    </div> 
     ) 
-        
-  
+      
 };
 
 export default List_Auction;

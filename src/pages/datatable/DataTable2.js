@@ -40,7 +40,7 @@ const DataTable = () => {
     const filteredData = dataSource.filter((item) => item.accountId !== value.accountId);
     setGridData(filteredData);
     const response = await axios.delete(
-      `http://localhost:8083/api/v1/deleteAccount/${value.accountId}`
+      // `http://localhost:8083/api/v1/deleteAccount/${value.accountId}`
       
       ).then(res => { console.log(res)
       })

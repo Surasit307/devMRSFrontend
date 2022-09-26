@@ -8,6 +8,7 @@ import DataTable from './pages/datatable/DataTable';
 import DataTable2 from './pages/datatable/DataTable2';
 import List_Auction from './pages/datatable/List_Auction';
 import Test from './pages/test/Test';
+import Test2 from './pages/test/Test2';
 
 
 const App = () => {
@@ -27,6 +28,7 @@ const App = () => {
           <Route path="/datatable2" element={<DataTable2/>} />
           <Route path="/list_auction" element={<List_Auction/>} />
           <Route path="/test" element={<Test/>} />
+          <Route path="/test2" element={<Test2/>} />
           {/* <Route path="*" element={<NoPage />} /> */}
         </Routes>
 
