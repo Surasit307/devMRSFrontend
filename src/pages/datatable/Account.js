@@ -8,7 +8,7 @@ import Highlighter from "react-highlight-words";
 import 'antd/dist/antd.min.css';
 
 
-const DataTable = () => {
+const Account = () => {
   const [gridData, setGridData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [editingKey, setEditingKey] = useState("");
@@ -491,4 +491,4 @@ const DataTable = () => {
   )
 };
 
-export default DataTable;
+export default Account;

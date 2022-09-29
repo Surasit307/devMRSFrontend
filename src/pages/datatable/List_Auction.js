@@ -1,12 +1,13 @@
 import React, { useState, useEffect} from "react";
 import axios from "axios";
 import { Table, Popconfirm, Button, Space, Form, Input ,Upload , Image , Checkbox, message } from "antd";
-import { RightCircleTwoTone, SearchOutlined ,UploadOutlined} from "@ant-design/icons";
+import { SearchOutlined ,UploadOutlined} from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 // import "antd/dist/antd.css";
 import 'antd/dist/antd.min.css';
 import './DataTable.css'; 
 import Moment from 'moment';
+
 
 
 const List_Auction = () => {
@@ -43,7 +44,7 @@ const List_Auction = () => {
     const filteredData = dataSource.filter((item) => item.auctionId !== value.auctionId);
     setGridData(filteredData);
     const response = await axios.delete(
-      `http://localhost:8083/api/v1/deleteAuctionById/${value.auctionId}`
+      `http://localhost:8083/api/v1/deleteAuction/${value.auctionId}`
 
       ).then(res => { console.log(res)
       })
@@ -57,7 +58,7 @@ const List_Auction = () => {
     const filteredData = dataSource.filter((item) => item.auctionId !== value.auctionId);
     setGridData(filteredData);
     const response = await axios.delete(
-      `http://localhost:8083/api/v1/DeleteAllAuction`
+      `http://localhost:8083/api/v1/deleteAllAuction`
       ).then(res => { console.log(res)
       })
      .catch(err => {  
@@ -74,10 +75,12 @@ const List_Auction = () => {
   const [selectVideo1,setSelectVideo1] = useState();
   const [selectVideo2,setSelectVideo2] = useState();
 
-
   const onFileUploadImage1 = async (value,key) => {
     const formData = new FormData();
     formData.append("auctionId", value.id);
+    if(selectImage1 === undefined){
+      message.error("No file upload")
+    }
     Array.from(selectImage1).forEach((file) => {
       formData.append("fileImage",file);
       console.log("file" ,file)
@@ -90,11 +93,15 @@ const List_Auction = () => {
          console.error(err)
          message.error("The file size may be too large")
      });
+     
   };
 
   const onFileUploadImage2 = async (value,key) => {
     const formData = new FormData();
     formData.append("auctionId", value.id);
+    if(selectImage2 === undefined){
+      message.error("No file upload")
+    }
     Array.from(selectImage2).forEach((file) => {
       formData.append("fileImage",file);
       console.log("file" ,file)
@@ -112,6 +119,9 @@ const List_Auction = () => {
   const onFileUploadImage3 = async (value,key) => {
     const formData = new FormData();
     formData.append("auctionId", value.id);
+    if(selectImage3 === undefined){
+      message.error("No file upload")
+    }
     Array.from(selectImage3).forEach((file) => {
       formData.append("fileImage",file);
       console.log("file" ,file)
@@ -129,6 +139,9 @@ const List_Auction = () => {
   const onFileUploadImage4 = async (value,key) => {
     const formData = new FormData();
     formData.append("auctionId", value.id);
+    if(selectImage4 === undefined){
+      message.error("No file upload")
+    }
     Array.from(selectImage4).forEach((file) => {
       formData.append("fileImage",file);
   })
@@ -145,6 +158,9 @@ const List_Auction = () => {
   const onFileUploadImage5 = async (value,key) => {
     const formData = new FormData();
     formData.append("auctionId", value.id);
+    if(selectImage5 === undefined){
+      message.error("No file upload")
+    }
     Array.from(selectImage5).forEach((file) => {
       formData.append("fileImage",file);
   })
@@ -162,6 +178,9 @@ const List_Auction = () => {
     const onFileUploadVideo1 = async (value,key) => {
     const formData = new FormData();
     formData.append("auctionId", value.id);
+    if(selectVideo1 === undefined){
+      message.error("No file upload")
+    }
     Array.from(selectVideo1).forEach((file) => {
       formData.append("fileVideo",file);
   })
@@ -178,6 +197,9 @@ const List_Auction = () => {
   const onFileUploadVideo2 = async (value,key) => {
     const formData = new FormData();
     formData.append("auctionId", value.id);
+    if(selectVideo2 === undefined){
+      message.error("No file upload")
+    }
     Array.from(selectVideo2).forEach((file) => {
       formData.append("fileVideo",file);
   })
@@ -190,6 +212,73 @@ const List_Auction = () => {
          message.error('Maximum file video size 5MB')
      });
   };
+
+  const onRemoveImage1 = () =>{
+    setSelectImage1(undefined)
+}
+const onRemoveImage2 = () =>{
+  setSelectImage2(undefined)
+}
+const onRemoveImage3 = () =>{
+setSelectImage3(undefined)
+}
+const onRemoveImage4 = () =>{
+setSelectImage4(undefined)
+}
+const onRemoveImage5 = () =>{
+setSelectImage5(undefined)
+}
+const onRemoveVideo1 = () =>{
+setSelectVideo1(undefined)
+}
+const onRemoveVideo2 = () =>{
+setSelectVideo2(undefined)
+}
+
+const save = async (value,key) => {
+  const Username = document.getElementById("username").value;
+  const ProductName = document.getElementById("productName").value;
+  const Price = document.getElementById("price").value;
+  const Userbid = document.getElementById("userBid").value;
+  const PriceWinner = document.getElementById("priceWinner").value;
+  const View = document.getElementById("view").value;
+
+  const formData = new FormData();
+  formData.append("auctionId", value.id);
+  formData.append("username", Username);
+  formData.append("productId", value.idProduct);
+  formData.append("productName", ProductName);
+  formData.append("price", Price);
+  formData.append("userBid", Userbid);
+  formData.append("priceWinner", PriceWinner);
+  formData.append("view", View);
+
+  const response = await axios.post("http://localhost:8083/api/v1/updateListAuction" , formData
+    ).then(res => { console.log(res)
+      message.success("Update Success")
+    })
+   .catch(err => {  
+       console.error(err)
+       message.success("Update Failed")
+   });
+
+
+ try {
+    const row = await form.validateFields();
+    const newData = [...modifiedData];
+    const index = newData.findIndex((item) => key === item.key);
+    if (index > -1) {
+      const item = newData[index];
+      newData.splice(index, 1, { ...item, ...row });
+      setGridData(newData);
+      setEditingKey("");
+    }
+  } catch (error) {
+    console.log("Error", error);
+  }
+  // loadData();
+  window.location.reload();
+};
 
   //Show Output DataTalble use dataIndex from column
   const modifiedData = gridData.map(({ body, ...item }) => ({ 
@@ -316,50 +405,6 @@ const List_Auction = () => {
   };
   console.log("filteredInfo", filteredInfo);
 
-  const save = async (value,key) => {
-    const Username = document.getElementById("username").value;
-    const ProductName = document.getElementById("productName").value;
-    const Price = document.getElementById("price").value;
-    const Userbid = document.getElementById("userBid").value;
-    const PriceWinner = document.getElementById("priceWinner").value;
-    const View = document.getElementById("view").value;
-
-    const formData = new FormData();
-    formData.append("auctionId", value.id);
-    formData.append("username", Username);
-    formData.append("productId", value.idProduct);
-    formData.append("productName", ProductName);
-    formData.append("price", Price);
-    formData.append("userBid", Userbid);
-    formData.append("priceWinner", PriceWinner);
-    formData.append("view", View);
-
-    const response = await axios.post("http://localhost:8083/api/v1/updateListAuction" , formData
-      ).then(res => { console.log(res)
-        message.success("Update Success")
-      })
-     .catch(err => {  
-         console.error(err)
-         message.success("Update Failed")
-     });
-
-
-   try {
-      const row = await form.validateFields();
-      const newData = [...modifiedData];
-      const index = newData.findIndex((item) => key === item.key);
-      if (index > -1) {
-        const item = newData[index];
-        newData.splice(index, 1, { ...item, ...row });
-        setGridData(newData);
-        setEditingKey("");
-      }
-    } catch (error) {
-      console.log("Error", error);
-    }
-    // loadData();
-    window.location.reload();
-  };
 
   const EditableCell = ({
     editing,
@@ -397,8 +442,9 @@ const List_Auction = () => {
     );
   };  
 
+
   const columns = [
-    { //Column ID
+    { 
       id: "id",
       title: "ID",
       dataIndex: "id",
@@ -406,7 +452,7 @@ const List_Auction = () => {
       align : "center",
       width : 100,
     },
-    { //Column Username
+    { 
       id: "username",
       title: "Username",
       dataIndex: "username",
@@ -418,7 +464,7 @@ const List_Auction = () => {
       sortOrder: sortedInfo.columnKey === "username" && sortedInfo.order,
       ...getColumnSearchProps("username"),
     },
-    { //Column ProductId
+    { 
       id: "idProduct",
       title: "Product_Id",
       dataIndex: "idProduct",
@@ -426,7 +472,7 @@ const List_Auction = () => {
       align : "center",   
       width : 150,
     },
-    { //Column ProductName
+    {
       id: "productName",
       title: "Product_name",
       dataIndex: "productName",
@@ -453,36 +499,36 @@ const List_Auction = () => {
             
             <Space>
               {editable ? ( 
-                
-              <div>
+                <div>
                 <div className = "imageUpload">
                 <Upload
-                id ="uploadImage1"
+                // id ="uploadImage1"
+                name="uploadImage1"
                 action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                 defaultFileList={selectImage1}
                 // fileList={selectImage1}
-                // listType="picture"
+                listType="picture"
                 // action={"http://localhost:3000/list_auction"}
                 maxCount={1}
                 accept=".png,.jpeg,.jpg,.gif,image/*"
                 beforeUpload={(ImageFile) => {    
-                  // console.log("ImageFile1",ImageFile) 
                   const isLt2M = ImageFile.size / 1024 / 1024 < 1;
                   if(!isLt2M){
                     ImageFile.flag=true;
                     message.error('Maximum file image size 1MB')
                     return true
-                  }  
+                  } 
                 setSelectImage1([ImageFile])    
                 return true;  
               }}    
+              onRemove={onRemoveImage1}
+
               >
                 <Button>Browser Image (Max: 1)</Button>
               </Upload>
               
               </div>
               <br></br>
-              {/* <Button onClick ={onFileUpload} icon={<UploadOutlined /> }>Upload</Button> */}
               <Space size="middle">
                 <Popconfirm title="Sure to save?" onConfirm={() => onFileUploadImage1(record,record.key)}>
                   <Button       
@@ -548,6 +594,7 @@ const List_Auction = () => {
                   //  console.log("file : ",[ImageFile]);
                 return false;
               }}
+              onRemove={onRemoveImage2}
               >
                 <Button>Browser Image (Max: 1)</Button>
                 
@@ -620,6 +667,7 @@ const List_Auction = () => {
                   //  console.log("file : ",fileImage);
                 return false;
               }}
+              onRemove={onRemoveImage3}
               >
                 <Button>Browser Image (Max: 1)</Button>
                 
@@ -691,6 +739,7 @@ const List_Auction = () => {
                   //  console.log("file : ",fileImage);
                 return false;
               }}
+              onRemove={onRemoveImage4}
               >
                 <Button>Browser Image (Max: 1)</Button>
                 
@@ -762,6 +811,7 @@ const List_Auction = () => {
                   //  console.log("file : ",selectImage5);
                 return false;
               }}
+              onRemove={onRemoveImage5}
               >
                 <Button>Browser Image (Max: 1)</Button>
                 
@@ -831,6 +881,7 @@ const List_Auction = () => {
                   //  console.log("file : ",fileImage);
                 return true;
               }}
+              onRemove={onRemoveVideo1}
               >
                 <Button>Browser Video (Max: 1)</Button>
                 
@@ -901,6 +952,7 @@ const List_Auction = () => {
                   //  console.log("file : ",fileImage);
                 return true;
               }}
+              onRemove={onRemoveVideo2}
               >
                 <Button>Browser Video (Max: 1)</Button>
                 
@@ -1181,7 +1233,6 @@ const List_Auction = () => {
         />
       </Form>
       </center>
-
     </div> 
     ) 
       

@@ -20,7 +20,7 @@ const handleSignin = () => {
 
     const handleDataTable = () => {
         // alert('>>>');
-        navigate('/datatable2');
+        navigate('/account');
     };
 
     const handleListAuction = () => {
