@@ -41,10 +41,10 @@ const List_Auction = () => {
 
   const handleDelete = async (value) => {
     const dataSource = [...modifiedData];
-    const filteredData = dataSource.filter((item) => item.auctionId !== value.auctionId);
+    const filteredData = dataSource.filter((item) => item.id !== value.id);
     setGridData(filteredData);
     const response = await axios.delete(
-      `http://localhost:8083/api/v1/deleteAuction/${value.auctionId}`
+      `http://localhost:8083/api/v1/deleteAuction/${value.id}`
 
       ).then(res => { console.log(res)
       })
@@ -442,7 +442,6 @@ const save = async (value,key) => {
     );
   };  
 
-
   const columns = [
     { 
       id: "id",
@@ -499,15 +498,14 @@ const save = async (value,key) => {
             
             <Space>
               {editable ? ( 
-                <div>
+                <div> 
                 <div className = "imageUpload">
-                <Upload
-                // id ="uploadImage1"
+                <Upload 
                 name="uploadImage1"
                 action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                 defaultFileList={selectImage1}
-                // fileList={selectImage1}
-                listType="picture"
+              // fileList= {fileList}
+                // listType="picture"
                 // action={"http://localhost:3000/list_auction"}
                 maxCount={1}
                 accept=".png,.jpeg,.jpg,.gif,image/*"
@@ -522,7 +520,6 @@ const save = async (value,key) => {
                 return true;  
               }}    
               onRemove={onRemoveImage1}
-
               >
                 <Button>Browser Image (Max: 1)</Button>
               </Upload>
@@ -540,6 +537,7 @@ const save = async (value,key) => {
                   </Button>
                   </Popconfirm>
                   </Space>
+                  
               </div>
               ) 
               : (
@@ -553,7 +551,6 @@ const save = async (value,key) => {
             }
              </Space >         
           ) : null;    
-              
         },
       
       },    
@@ -570,13 +567,10 @@ const save = async (value,key) => {
           return modifiedData.length >= 1 ? (
             <Space>
               {editable ? (
-                  
                 <span>
-
               <div>
                 <div className = "imageUpload">
                 <Upload
-                id ="uploadImage2"
                 action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                 defaultFileList={selectImage2}
                 // listType="picture"
@@ -648,7 +642,6 @@ const save = async (value,key) => {
               <div>
                 <div className = "imageUpload">
                 <Upload
-                id ="uploadImage3"
                 action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                 defaultFileList={selectImage3}
                 // listType="picture"
@@ -721,7 +714,6 @@ const save = async (value,key) => {
               <div>
               <div className = "imageUpload">
                 <Upload
-                id ="uploadImage4"
                 action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                 // listType="picture"
                 defaultFileList={selectImage4}
@@ -793,7 +785,6 @@ const save = async (value,key) => {
               <div>
               <div className = "imageUpload">
                 <Upload
-                id ="uploadImage5"
                 action="https://www.mocky.io/v2/5cc8019d30000980a055e76"
                 // listType="picture"
                 defaultFileList={selectImage5}
