@@ -545,7 +545,8 @@ const save = async (value,key) => {
                  <Image 
                  width = {200} 
                  height = {120} 
-                 src = {`data:image/jpg;base64,${record.image1} `}/>
+                 placeholder={true}
+                 src= {`data:image/jpg;base64,${record.image1} `}/>
               </div>
                )
             }
@@ -615,6 +616,7 @@ const save = async (value,key) => {
                  <Image 
                  width = {200} 
                  height = {120} 
+                 placeholder={true}
                  src = {`data:image/jpg;base64,${record.image2} `}/>
               </div>
                )
@@ -687,6 +689,7 @@ const save = async (value,key) => {
                  <Image 
                  width = {200} 
                  height = {120} 
+                 placeholder={true}
                  src = {`data:image/jpg;base64,${record.image3} `}/>
               </div>
                )
@@ -758,6 +761,7 @@ const save = async (value,key) => {
                  <Image 
                  width = {200} 
                  height = {120} 
+                 placeholder={true}
                  src = {`data:image/jpg;base64,${record.image4} `}/>
               </div>
                )
@@ -829,6 +833,7 @@ const save = async (value,key) => {
                  <Image   
                  width = {200} 
                  height = {120} 
+                 placeholder={true}
                  src = {`data:image/jpg;base64,${record.image5} `}/>
               </div>
                )
@@ -872,6 +877,7 @@ const save = async (value,key) => {
                   //  console.log("file : ",fileImage);
                 return true;
               }}
+              placeholder={true}
               onRemove={onRemoveVideo1}
               >
                 <Button>Browser Video (Max: 1)</Button>
@@ -1031,7 +1037,7 @@ const save = async (value,key) => {
         dataIndex: "userBid",
         name: "userBid",
         align: "center",
-        width : 300,
+        width : 150,
         editable: true,
         sorter: (a, b) => a.userBid.length - b.userBid.length,
         sortOrder: sortedInfo.columnKey === "userBid" && sortedInfo.order,

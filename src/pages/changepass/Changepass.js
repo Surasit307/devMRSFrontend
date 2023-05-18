@@ -1,6 +1,7 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button, TextField } from '@mui/material';
 import React, { useState } from 'react';
+import { message } from "antd";
 import axios from 'axios';
 
 const Changepass = () => {
@@ -17,11 +18,13 @@ const Changepass = () => {
             
             })
              .then(res => { console.log(res)
-              alert("Success")
-              navigate('/login');
+            //   alert("Success")
+              message.success("Change password success")
+            //   navigate('/login');
              })
             .catch(err => {  
-                alert("Failed")
+                // alert("Failed")
+                message.error("Change password Failed")
                 console.error(err)
 
             });

@@ -33,7 +33,12 @@ const handleLogout = (e) => {
     <center> 
 
      <div>
+      
         <br></br>
+        <p>
+        Username : {userName}
+        </p>
+        
         <Button variant="contained" onClick={handleLogout} 
          onChange={(e) => setValues({...values,username:e.target.value})}> Logout</Button>
 
